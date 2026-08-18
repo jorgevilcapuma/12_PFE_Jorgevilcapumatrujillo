@@ -1,0 +1,44 @@
+<div class="contenedor">
+  <!-- Header: Nombre del sistema y descripción -->
+  <header>
+    <h1>{{title}}</h1>
+    <p>Gestión y control de insumos y materiales en almacén</p>
+  </header>
+
+  <!-- Sección 1: Búsqueda y Acción principales (Botones) -->
+  <section class="acciones">
+    <input type="text" placeholder="Buscar insumo por nombre o código...">
+    <button type="button" (click)="registrarInsumo()">Registrar Insumo</button>
+  </section>
+
+  <!-- Tarjeta con contadores o métricas -->
+  <section class="metricas">
+    <div class="tarjeta-metrica">
+      <h3>Total de Insumos</h3>
+      <p class="valor">{{totalInsumos}}</p>
+    </div>
+    <div class="tarjeta-metrica alerta">
+      <h3>Stock Crítico / Agotados</h3>
+      <p class="valor">{{insumosCriticos}}</p>
+    </div>
+  </section>
+
+  <!-- Sección 2: Listado de insumos (Inventario) -->
+  <section class="inventario">
+    @for (insumo of insumos; track insumo.nombre) {
+      <div class="tarjeta">
+        <h2>{{insumo.nombre}}</h2>
+        <p><strong>Categoría:</strong> {{insumo.categoria}}</p>
+        <p><strong>Stock actual:</strong> {{insumo.stock}} unidades</p>
+        <p><strong>Ubicación:</strong> {{insumo.almacen}}</p>
+        <p><strong>Estado:</strong> <span [ngClass]="'estado-' + insumo.estado.toLowerCase().replace(' ', '-')">{{insumo.estado}}</span></p>
+        <button type="button" (click)="verDetalles(insumo.nombre)">Detalles</button>
+      </div>
+    }
+  </section>
+
+  <!-- Pie de página con el nombre del estudiante -->
+  <footer>
+    <p>Proyecto desarrollado por: <strong>{{estudiante}}</strong> | Repositorio: S01 - RP - Inventario</p>
+  </footer>
+</div>

@@ -1,0 +1,163 @@
+/* Contenedor principal de la aplicación */
+.contenedor {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Encabezado del sistema */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 20px;
+}
+
+header h1 {
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: #64748b;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Sección 1: Buscador y botón */
+.acciones {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3b82f6;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2563eb;
+}
+
+/* Sección de Métricas / Contadores */
+.metricas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.tarjeta-metrica {
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #ffffff;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.tarjeta-metrica:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.tarjeta-metrica h3 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    color: #475569;
+}
+
+.tarjeta-metrica .valor {
+    font-size: 2.25rem;
+    font-weight: bold;
+    color: #1e293b;
+    margin: 0;
+}
+
+.tarjeta-metrica.alerta {
+    border-color: #fca5a5;
+    background-color: #fef2f2;
+}
+
+.tarjeta-metrica.alerta .valor {
+    color: #dc2626;
+}
+
+/* Sección 2: Tarjetas de inventario */
+.inventario {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.tarjeta {
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.tarjeta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.tarjeta h2 {
+    color: #3b82f6;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.tarjeta p {
+    margin: 5px 0;
+    color: #334155;
+}
+
+.tarjeta button {
+    margin-top: 10px;
+    align-self: flex-start;
+}
+
+/* --- Colores dinámicos para el estado del insumo --- */
+.estado-disponible {
+    color: #16a34a; /* Verde */
+    font-weight: bold;
+}
+
+.estado-stock-crítico {
+    color: #f97316; /* Naranja */
+    font-weight: bold;
+}
+
+
+/* Pie de página con estudiante */
+footer {
+    margin-top: 40px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+    color: #475569;
+    font-size: 14px;
+}
