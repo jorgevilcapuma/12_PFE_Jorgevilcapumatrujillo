@@ -1,0 +1,63 @@
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-header text-white">
+    <h4 class="card-title m-0 fw-bold fs-5">➕ Registrar Nueva Película</h4>
+  </div>
+  <div class="card-body p-4">
+    <form (submit)="$event.preventDefault()">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Título</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="titulo" 
+          name="titulo" 
+          placeholder="Ej. Interstellar">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Género</label>
+        <select class="form-select" [(ngModel)]="genero" name="genero">
+          <option value="">-- Selecciona un Género --</option>
+          @for (item of generosDisponibles; track item) {
+            <option [value]="item">{{ item }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-semibold">Año</label>
+          <input 
+            type="number" 
+            class="form-control" 
+            [(ngModel)]="anio" 
+            name="anio" 
+            placeholder="Ej. 2014"
+            min="1888" 
+            max="2030">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-semibold">Calificación (1 - 10)</label>
+          <input 
+            type="number" 
+            class="form-control" 
+            [(ngModel)]="calificacion" 
+            name="calificacion" 
+            placeholder="Ej. 9"
+            min="1" 
+            max="10">
+        </div>
+      </div>
+
+      <!-- Botón Deshabilitado [disabled] si faltan campos -->
+      <button 
+        type="button" 
+        class="btn btn-primary w-100 fw-bold py-2 mt-2"
+        (click)="agregarPelicula()" 
+        [disabled]="!titulo || !genero || !anio || calificacion === null || calificacion < 1 || calificacion > 10">
+        🎬 Registrar Película
+      </button>
+    </form>
+  </div>
+</div>

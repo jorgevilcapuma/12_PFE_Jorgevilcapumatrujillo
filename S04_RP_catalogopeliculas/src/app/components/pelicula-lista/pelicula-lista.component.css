@@ -1,0 +1,9 @@
+h4 {
+  color: #334155;
+}
+
+.empty-container {
+  border-radius: 12px !important;
+  border: 2px dashed #cbd5e1 !important;
+  background-color: #ffffff !important;
+}

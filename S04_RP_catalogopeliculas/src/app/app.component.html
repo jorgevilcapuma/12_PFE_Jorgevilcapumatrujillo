@@ -1,0 +1,12 @@
+<app-navbar></app-navbar>
+
+<div class="container pb-5">
+  <div class="row">
+    <div class="col-lg-4">
+      <app-pelicula-formulario (peliculaAgregada)="onPeliculaAgregada($event)"></app-pelicula-formulario>
+    </div>
+    <div class="col-lg-8">
+      <app-pelicula-lista [listaPeliculas]="peliculas"></app-pelicula-lista>
+    </div>
+  </div>
+</div>
