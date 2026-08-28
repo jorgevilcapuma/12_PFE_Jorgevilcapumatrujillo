@@ -1,0 +1,19 @@
+<app-navbar></app-navbar>
+
+<main class="main-layout">
+  <section class="sidebar">
+    <app-pedido-formulario
+      [pedidoAEditar]="pedidoSeleccionado"
+      (guardar)="guardarPedido($event)"
+      (cancelar)="cancelarEdicion()"
+    ></app-pedido-formulario>
+  </section>
+
+  <section class="content">
+    <app-pedido-lista
+      [pedidos]="pedidos()"
+      (editarPedido)="seleccionarParaEditar($event)"
+      (eliminarPedido)="eliminarPedido($event)"
+    ></app-pedido-lista>
+  </section>
+</main>

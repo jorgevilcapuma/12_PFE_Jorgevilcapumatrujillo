@@ -1,0 +1,27 @@
+.lista-header {
+  margin-bottom: 2rem;
+}
+
+.lista-header h2 {
+  font-size: 2rem;
+}
+
+.lista-header p {
+  color: var(--text-muted-color);
+  font-size: 1rem;
+}
+
+.pedidos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.no-pedidos {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--surface-color);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-muted-color);
+}

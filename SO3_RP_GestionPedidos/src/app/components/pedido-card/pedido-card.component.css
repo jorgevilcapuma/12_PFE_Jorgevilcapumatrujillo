@@ -1,0 +1,257 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+/* Base Card UI */
+.pedido-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.pedido-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.12);
+  border-color: #cbd5e1;
+}
+
+/* Indicador superior de estado */
+.card-status-bar {
+  height: 4px;
+  width: 100%;
+}
+
+.card-status-bar.pendiente { background: #f59e0b; }
+.card-status-bar.procesando { background: #3b82f6; }
+.card-status-bar.completado { background: #10b981; }
+.card-status-bar.cancelado { background: #ef4444; }
+
+/* Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.25rem 0.5rem 1.25rem;
+}
+
+.id-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  background-color: #f1f5f9;
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.id-icon {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #94a3b8;
+}
+
+.pedido-id {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #334155;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Status Badges con punto dinámico */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 20px;
+  text-transform: capitalize;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-badge.pendiente {
+  color: #b45309;
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+}
+.status-badge.pendiente .status-dot { background-color: #f59e0b; }
+
+.status-badge.procesando {
+  color: #1d4ed8;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+.status-badge.procesando .status-dot { background-color: #3b82f6; }
+
+.status-badge.completado {
+  color: #047857;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+.status-badge.completado .status-dot { background-color: #10b981; }
+
+.status-badge.cancelado {
+  color: #b91c1c;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+}
+.status-badge.cancelado .status-dot { background-color: #ef4444; }
+
+/* Card Body */
+.card-body {
+  padding: 0.75rem 1.25rem 1.25rem 1.25rem;
+  flex-grow: 1;
+}
+
+.card-title {
+  margin: 0 0 0.4rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.card-customer {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+}
+
+.icon-user {
+  width: 15px;
+  height: 15px;
+  color: #94a3b8;
+}
+
+/* Info Grid Layer */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  background-color: #f8fafc;
+  padding: 0.85rem;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  margin-bottom: 0.2rem;
+}
+
+.info-value-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.info-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.unit {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.price-item {
+  align-items: flex-end;
+}
+
+.info-value.price {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+/* Action Buttons Footer */
+.card-footer {
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  background-color: #ffffff;
+}
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.btn-action svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.btn-edit {
+  background-color: #f8fafc;
+  color: #2563eb;
+  border-color: #e2e8f0;
+}
+
+.btn-edit:hover {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+.btn-edit:hover svg {
+  transform: scale(1.1);
+}
+
+.btn-delete {
+  background-color: #f8fafc;
+  color: #dc2626;
+  border-color: #e2e8f0;
+}
+
+.btn-delete:hover {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.btn-delete:hover svg {
+  transform: scale(1.1);
+}

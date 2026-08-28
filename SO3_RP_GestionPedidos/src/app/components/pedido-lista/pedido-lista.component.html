@@ -1,0 +1,16 @@
+<div class="lista-container">
+  <h2>Lista de Pedidos ({{ pedidos.length }})</h2>
+  
+  <div *ngIf="pedidos.length === 0" class="empty-state">
+    No hay pedidos registrados.
+  </div>
+
+  <div class="grid">
+    <app-pedido-card
+      *ngFor="let item of pedidos"
+      [pedido]="item"
+      (editar)="onEditar($event)"
+      (eliminar)="onEliminar($event)"
+    ></app-pedido-card>
+  </div>
+</div>
