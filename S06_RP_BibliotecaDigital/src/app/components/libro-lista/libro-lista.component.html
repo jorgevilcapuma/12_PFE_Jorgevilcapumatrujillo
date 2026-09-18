@@ -1,0 +1,151 @@
+<div class="app-container">
+  <!-- ENCABEZADO -->
+  <header class="header">
+    <div class="logo-box">
+      <span class="icon">📚</span>
+      <div>
+        <h1>Biblioteca Digital</h1>
+        <p>RETO PRÁCTICO: Consumiendo API REST en Angular & HttpClient</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-grid">
+    <!-- FORMULARIO POST / PUT -->
+    <section class="card shadow-card">
+      <div class="card-title">
+        <span class="http-badge" [ngClass]="modoEdicion ? 'put' : 'post'">
+          {{ modoEdicion ? 'PUT' : 'POST' }}
+        </span>
+        <h2>{{ modoEdicion ? 'Editar Libro' : 'Registrar Libro' }}</h2>
+      </div>
+
+      <form (ngSubmit)="guardarLibro()" class="custom-form">
+        <div class="input-group">
+          <label>Título del libro</label>
+          <input 
+            type="text" 
+            [(ngModel)]="nuevoLibro.titulo" 
+            name="titulo" 
+            placeholder="Ej. Don Quijote de la Mancha" 
+            required 
+          />
+        </div>
+
+        <div class="input-group">
+          <label>Autor</label>
+          <input 
+            type="text" 
+            [(ngModel)]="nuevoLibro.autor" 
+            name="autor" 
+            placeholder="Ej. Miguel de Cervantes" 
+            required 
+          />
+        </div>
+
+        <div class="row-inputs">
+          <div class="input-group">
+            <label>Año</label>
+            <input 
+              type="number" 
+              [(ngModel)]="nuevoLibro.anio" 
+              name="anio" 
+              placeholder="Ej. 1605" 
+              required 
+            />
+          </div>
+
+          <div class="input-group">
+            <label>Género</label>
+            <select [(ngModel)]="nuevoLibro.genero" name="genero" class="custom-select" required>
+              <option value="" disabled selected>Elegir...</option>
+              <option value="Novela">Novela</option>
+              <option value="Ficción">Ficción</option>
+              <option value="No Ficción">No Ficción</option>
+              <option value="Aventura">Aventura</option>
+              <option value="Ciencia Ficción">Ciencia Ficción</option>
+              <option value="Fantasía">Fantasía</option>
+              <option value="Terror / Horror">Terror / Horror</option>
+              <option value="Misterio">Misterio</option>
+              <option value="Romance">Romance</option>
+              <option value="Poesía">Poesía</option>
+              <option value="Drama / Teatro">Drama / Teatro</option>
+              <option value="Historia">Historia</option>
+              <option value="Biografía">Biografía</option>
+              <option value="Filosofía">Filosofía</option>
+              <option value="Infantil">Infantil</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>URL Imagen Portada (Opcional)</label>
+          <input 
+            type="text" 
+            [(ngModel)]="nuevoLibro.imagen" 
+            name="imagen" 
+            placeholder="https://..." 
+          />
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">
+            {{ modoEdicion ? '🔄 Actualizar' : '💾 Registrar' }}
+          </button>
+          @if (modoEdicion) {
+            <button type="button" (click)="limpiarFormulario()" class="btn btn-secondary">
+              ❌ Cancelar
+            </button>
+          }
+        </div>
+      </form>
+    </section>
+
+    <!-- LISTA GET -->
+    <section class="card shadow-card">
+      <div class="card-title">
+        <span class="http-badge get">GET</span>
+        <h2>Catálogo de Libros en API</h2>
+      </div>
+
+      @if (cargando) {
+        <div class="spinner-container">
+          <div class="spinner"></div>
+          <p>Consultando API de OpenLibrary...</p>
+        </div>
+      } @else {
+        <div class="table-container">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Portada</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Año</th>
+                <th>Género</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of libros; track item.id) {
+                <tr>
+                  <td>
+                    <img [src]="item.imagen" [alt]="item.titulo" class="book-cover" />
+                  </td>
+                  <td class="book-title">{{ item.titulo }}</td>
+                  <td class="book-author">{{ item.autor }}</td>
+                  <td><span class="badge-year">{{ item.anio }}</span></td>
+                  <td><span class="badge-genre">{{ item.genero }}</span></td>
+                  <td class="action-buttons">
+                    <button (click)="seleccionarParaEditar(item)" class="btn-action edit" title="Editar">✏️</button>
+                    <button (click)="eliminar(item.id)" class="btn-action delete" title="Eliminar">🗑️</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  </div>
+</div>
