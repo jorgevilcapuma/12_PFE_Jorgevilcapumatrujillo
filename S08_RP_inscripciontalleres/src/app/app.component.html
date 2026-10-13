@@ -1,0 +1,158 @@
+<header class="encabezado">
+  <p class="etiqueta">Instituto · Talleres Tecnológicos 2026</p>
+  <h1>Sistema de Inscripción a Talleres</h1>
+  <p class="subtitulo">Registra a los participantes y administra las inscripciones en tiempo real.</p>
+</header>
+
+<main class="contenedor">
+
+  <!-- ===== Formulario de inscripción ===== -->
+  <section class="tarjeta">
+    <h2>Formulario de inscripción</h2>
+
+    <form #formulario="ngForm" (ngSubmit)="registrarParticipante(formulario)" novalidate>
+
+      <div class="campo">
+        <label for="nombre">Nombre completo *</label>
+        <input id="nombre" type="text" name="nombre" placeholder="Ej. Valery Chumpitaz"
+               [(ngModel)]="nuevoParticipante.nombre" #nombre="ngModel"
+               required minlength="3"
+               [class.invalido]="nombre.invalid && nombre.touched">
+        <div class="error" *ngIf="nombre.invalid && nombre.touched">
+          <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</span>
+          <span *ngIf="nombre.errors?.['minlength']">Debe tener al menos 3 caracteres.</span>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="correo">Correo institucional *</label>
+        <input id="correo" type="email" name="correo" placeholder="usuario@vallegrande.edu.pe"
+               [(ngModel)]="nuevoParticipante.correo" #correo="ngModel"
+               required email pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+               [class.invalido]="correo.invalid && correo.touched">
+        <div class="error" *ngIf="correo.invalid && correo.touched">
+          <span *ngIf="correo.errors?.['required']">El correo es obligatorio.</span>
+          <span *ngIf="!correo.errors?.['required'] && (correo.errors?.['email'] || correo.errors?.['pattern'])">
+            Ingresa un correo con formato válido.
+          </span>
+        </div>
+      </div>
+
+      <div class="fila">
+        <div class="campo">
+          <label for="especialidad">Especialidad *</label>
+          <select id="especialidad" name="especialidad"
+                  [(ngModel)]="nuevoParticipante.especialidad" #especialidad="ngModel" required
+                  [class.invalido]="especialidad.invalid && especialidad.touched">
+            <option value="" disabled>Selecciona una especialidad</option>
+            <option *ngFor="let e of especialidades" [value]="e">{{ e }}</option>
+          </select>
+          <div class="error" *ngIf="especialidad.invalid && especialidad.touched">Selecciona una especialidad.</div>
+        </div>
+
+        <div class="campo">
+          <label>Turno *</label>
+          <div class="radios">
+            <label class="radio" [class.activo]="nuevoParticipante.turno === 'Mañana'">
+              <input type="radio" name="turno" value="Mañana" [(ngModel)]="nuevoParticipante.turno" required>
+              ☀️ Mañana
+            </label>
+            <label class="radio" [class.activo]="nuevoParticipante.turno === 'Noche'">
+              <input type="radio" name="turno" value="Noche" [(ngModel)]="nuevoParticipante.turno" required>
+              🌙 Noche
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="fila">
+        <div class="campo">
+          <label for="modalidad">Modalidad *</label>
+          <select id="modalidad" name="modalidad"
+                  [(ngModel)]="nuevoParticipante.modalidad" #modalidad="ngModel" required
+                  [class.invalido]="modalidad.invalid && modalidad.touched">
+            <option value="" disabled>Selecciona una modalidad</option>
+            <option *ngFor="let m of modalidades" [value]="m">{{ m }}</option>
+          </select>
+          <div class="error" *ngIf="modalidad.invalid && modalidad.touched">Selecciona una modalidad.</div>
+        </div>
+
+        <div class="campo">
+          <label for="nivel">Nivel de experiencia *</label>
+          <select id="nivel" name="nivel"
+                  [(ngModel)]="nuevoParticipante.nivel" #nivel="ngModel" required
+                  [class.invalido]="nivel.invalid && nivel.touched">
+            <option value="" disabled>Selecciona un nivel</option>
+            <option *ngFor="let n of niveles" [value]="n">{{ n }}</option>
+          </select>
+          <div class="error" *ngIf="nivel.invalid && nivel.touched">Selecciona un nivel.</div>
+        </div>
+      </div>
+
+      <div class="acciones">
+        <button type="submit" class="btn btn-primario" [disabled]="formulario.invalid">Inscribir participante</button>
+        <button type="button" class="btn btn-secundario" (click)="limpiarFormulario(formulario)">Limpiar</button>
+      </div>
+
+      <p class="exito" *ngIf="mensajeExito">✔ {{ mensajeExito }}</p>
+    </form>
+  </section>
+
+  <!-- ===== Resumen de participantes ===== -->
+  <section class="resumen">
+    <div class="indicador total">
+      <span class="valor">{{ totalInscritos }}</span>
+      <span class="texto">Total de inscritos</span>
+    </div>
+    <div class="indicador manana">
+      <span class="valor">{{ totalManana }}</span>
+      <span class="texto">☀️ Turno mañana</span>
+    </div>
+    <div class="indicador noche">
+      <span class="valor">{{ totalNoche }}</span>
+      <span class="texto">🌙 Turno noche</span>
+    </div>
+  </section>
+
+  <!-- ===== Tabla de inscripciones ===== -->
+  <section class="tarjeta">
+    <h2>Inscripciones registradas</h2>
+
+    <div class="vacio" *ngIf="listaParticipantes.length === 0">
+      <p>📋 Todavía no existen participantes registrados.</p>
+      <small>Completa el formulario para agregar la primera inscripción.</small>
+    </div>
+
+    <div class="tabla-scroll" *ngIf="listaParticipantes.length > 0">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>N.º</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Especialidad</th>
+            <th>Turno</th>
+            <th>Modalidad</th>
+            <th>Nivel</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listaParticipantes">
+            <td class="numero">#{{ item.numero }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.correo }}</td>
+            <td><span class="badge" [ngClass]="claseEspecialidad(item.especialidad)">{{ item.especialidad }}</span></td>
+            <td><span class="badge" [ngClass]="item.turno === 'Mañana' ? 'badge-manana' : 'badge-noche'">{{ item.turno }}</span></td>
+            <td>{{ item.modalidad }}</td>
+            <td>{{ item.nivel }}</td>
+            <td>
+              <button type="button" class="btn btn-eliminar" (click)="eliminarParticipante(item.numero)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
