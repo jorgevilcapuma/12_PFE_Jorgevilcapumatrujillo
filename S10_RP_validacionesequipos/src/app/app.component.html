@@ -1,0 +1,136 @@
+﻿<header class="cabecera">
+  <h1>Sistema de Control de Equipos Tecnológicos</h1>
+  <p>Registro e inventario de activos informáticos con validaciones avanzadas</p>
+</header>
+
+<main class="contenedor">
+  <!-- Formulario reactivo -->
+  <section class="tarjeta tarjeta-formulario">
+    <h2>Registrar activo informático</h2>
+
+    <!-- Estados del FormGroup -->
+    <div class="estados">
+      <span class="estado" [class.ok]="equipoForm.valid" [class.mal]="equipoForm.invalid">
+        {{ equipoForm.valid ? 'VALID' : 'INVALID' }}
+      </span>
+      <span class="estado" [class.activo]="equipoForm.touched">touched: {{ equipoForm.touched }}</span>
+      <span class="estado" [class.activo]="equipoForm.dirty">dirty: {{ equipoForm.dirty }}</span>
+    </div>
+
+    <form [formGroup]="equipoForm" (ngSubmit)="guardar()" novalidate>
+      <div class="form-grid">
+        <div class="campo">
+          <label for="tipo">Tipo de equipo</label>
+          <select id="tipo" formControlName="tipo" [class.error]="invalido('tipo')" [class.correcto]="valido('tipo')">
+            <option value="" disabled>Seleccione un tipo</option>
+            <option *ngFor="let t of tiposEquipo" [value]="t">{{ t }}</option>
+          </select>
+          <small class="alerta" *ngIf="invalido('tipo') && campo('tipo').hasError('required')">
+            El tipo de equipo es obligatorio.
+          </small>
+        </div>
+
+        <div class="campo">
+          <label for="serie">Número de serie / MAC</label>
+          <input id="serie" type="text" formControlName="serie" placeholder="Ej. ABC12345 o 001A2B3C4D5E"
+                 [class.error]="invalido('serie')" [class.correcto]="valido('serie')">
+          <ng-container *ngIf="invalido('serie')">
+            <small class="alerta" *ngIf="campo('serie').hasError('required')">
+              El número de serie / MAC es obligatorio.
+            </small>
+            <small class="alerta" *ngIf="campo('serie').hasError('sinEspacios')">
+              La serie no puede contener solo espacios en blanco.
+            </small>
+            <small class="alerta" *ngIf="campo('serie').hasError('pattern') && !campo('serie').hasError('sinEspacios')">
+              Solo se permiten caracteres alfanuméricos (sin espacios, guiones ni símbolos).
+            </small>
+            <small class="alerta" *ngIf="campo('serie').hasError('minlength')">
+              La serie es muy corta: mínimo {{ serieMin }} caracteres
+              ({{ campo('serie').errors?.['minlength'].actualLength }}/{{ serieMin }}).
+            </small>
+            <small class="alerta" *ngIf="campo('serie').hasError('maxlength')">
+              La serie es muy larga: máximo {{ serieMax }} caracteres.
+            </small>
+            <small class="alerta" *ngIf="campo('serie').hasError('serieDuplicada')">
+              Ya existe un equipo registrado con esta serie / MAC.
+            </small>
+          </ng-container>
+        </div>
+
+        <div class="campo">
+          <label for="area">Área asignada</label>
+          <select id="area" formControlName="area" [class.error]="invalido('area')" [class.correcto]="valido('area')">
+            <option value="" disabled>Seleccione un área</option>
+            <option *ngFor="let a of areas" [value]="a">{{ a }}</option>
+          </select>
+          <small class="alerta" *ngIf="invalido('area') && campo('area').hasError('required')">
+            Debe seleccionar un área (Sistemas, Redes o Contabilidad).
+          </small>
+        </div>
+
+        <div class="campo">
+          <label for="valor">Valor estimado (S/)</label>
+          <input id="valor" type="number" step="0.01" formControlName="valor" placeholder="0.00"
+                 [class.error]="invalido('valor')" [class.correcto]="valido('valor')">
+          <ng-container *ngIf="invalido('valor')">
+            <small class="alerta" *ngIf="campo('valor').hasError('required')">El valor estimado es obligatorio.</small>
+            <small class="alerta" *ngIf="campo('valor').hasError('mayorQueCero')">El valor debe ser mayor a 0.</small>
+            <small class="alerta" *ngIf="campo('valor').hasError('max')">
+              El valor no puede superar S/ {{ valorMax | number:'1.2-2' }}.
+            </small>
+            <small class="alerta" *ngIf="campo('valor').hasError('decimales')">Solo se permiten hasta 2 decimales.</small>
+          </ng-container>
+        </div>
+      </div>
+
+      <p class="aviso" *ngIf="intentoFallido && equipoForm.invalid">
+        No se pudo registrar: corrija los campos marcados en rojo.
+      </p>
+
+      <div class="acciones">
+        <button type="submit" class="btn btn-primario" [class.bloqueado]="equipoForm.invalid">Registrar equipo</button>
+        <button type="button" class="btn btn-secundario" (click)="limpiar()">Limpiar</button>
+      </div>
+    </form>
+
+    <p class="exito" *ngIf="mensajeExito">{{ mensajeExito }}</p>
+  </section>
+
+  <!-- Inventario -->
+  <section class="tarjeta">
+    <div class="titulo-inventario">
+      <h2>Inventario activo de TI</h2>
+      <div class="resumen">
+        <span><strong>{{ totalEquipos }}</strong> equipos</span>
+        <span>Total: <strong>S/ {{ valorTotal | number:'1.2-2' }}</strong></span>
+      </div>
+    </div>
+
+    <p class="vacio" *ngIf="inventario.length === 0">No hay equipos registrados en el inventario.</p>
+
+    <div class="tabla-scroll" *ngIf="inventario.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Tipo</th>
+            <th>Serie / MAC</th>
+            <th>Área</th>
+            <th>Valor (S/)</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of inventario">
+            <td>TI-{{ e.codigo.toString().padStart(3, '0') }}</td>
+            <td><span class="badge">{{ e.tipo }}</span></td>
+            <td class="mono">{{ e.serie }}</td>
+            <td>{{ e.area }}</td>
+            <td class="num">{{ e.valor | number:'1.2-2' }}</td>
+            <td><button class="btn btn-peligro" (click)="darDeBaja(e.codigo)">Dar de baja</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
