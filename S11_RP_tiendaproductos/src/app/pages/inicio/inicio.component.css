@@ -1,0 +1,35 @@
+.bienvenida {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+  background: linear-gradient(120deg, #0f766e, #14b8a6);
+  color: #fff; border-radius: var(--radio); padding: 1.6rem 1.8rem; margin-bottom: 1.5rem;
+}
+.bienvenida h2 { margin: 0 0 .3rem; }
+.bienvenida p { margin: 0; opacity: .9; }
+.bienvenida .btn { background: #fff; color: var(--primario-oscuro); border-color: #fff; }
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.kpi { display: flex; align-items: center; gap: 1rem; }
+.kpi small { display: block; color: var(--texto-suave); font-size: .82rem; }
+.kpi strong { font-size: 1.55rem; }
+.kpi-icono { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; font-size: 1.4rem; }
+.azul { background: #dbeafe; } .morado { background: #f3e8ff; } .verde { background: #dcfce7; } .naranja { background: #ffedd5; }
+
+.rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem; }
+
+.cabecera { display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem; }
+.cabecera h3 { margin: 0; font-size: 1.02rem; }
+.cabecera a { font-size: .82rem; color: var(--primario); text-decoration: none; font-weight: 600; }
+
+.lista { list-style: none; margin: 0; padding: 0; }
+.lista li { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: .65rem 0; border-bottom: 1px dashed var(--borde); }
+.lista li:last-child { border-bottom: none; }
+.lista .nombre { font-weight: 600; text-decoration: none; display: block; }
+.lista a.nombre:hover { color: var(--primario); }
+.lista small { color: var(--texto-suave); font-size: .8rem; }
+.precio { font-weight: 700; white-space: nowrap; }
+
+.barra-fila { display: grid; grid-template-columns: 95px 1fr 24px; align-items: center; gap: .6rem; margin: .7rem 0; font-size: .88rem; }
+.barra { height: 10px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+.barra div { height: 100%; border-radius: 99px; }
+
+@media (max-width: 500px) { .rejilla { grid-template-columns: 1fr; } }

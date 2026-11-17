@@ -1,0 +1,63 @@
+<div class="pagina-titulo">
+  <div>
+    <h2>Catálogo de productos</h2>
+    <p>Consulta de productos y precios vigentes de la tienda.</p>
+  </div>
+  <span class="chip">{{ productos().length }} productos</span>
+</div>
+
+<!-- Filtros de consulta de precios -->
+<div class="tarjeta filtros">
+  <input type="search" placeholder="Buscar por nombre, SKU o marca…"
+         [ngModel]="busqueda()" (ngModelChange)="busqueda.set($event)">
+  <select [ngModel]="categoriaFiltro()" (ngModelChange)="categoriaFiltro.set(+$event)">
+    <option [ngValue]="0">Todas las categorías</option>
+    @for (c of categorias; track c.id) {
+      <option [ngValue]="c.id">{{ c.nombre }}</option>
+    }
+  </select>
+  <select [ngModel]="orden()" (ngModelChange)="orden.set($event)">
+    <option value="nombre">Ordenar: nombre A–Z</option>
+    <option value="precio-asc">Precio: menor a mayor</option>
+    <option value="precio-desc">Precio: mayor a menor</option>
+  </select>
+  <button class="btn secundario" (click)="limpiar()">Limpiar</button>
+</div>
+
+<div class="tarjeta tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>SKU</th>
+        <th>Producto</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Estado</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of productos(); track p.id) {
+        <tr>
+          <td class="sku">{{ p.sku }}</td>
+          <td><strong>{{ p.nombre }}</strong><br><small class="suave">{{ p.marca }}</small></td>
+          <td>{{ categoria(p.categoriaId) }}</td>
+          <td class="precio">
+            {{ p.precio | currency:'PEN':'S/ ' }}
+            @if (p.precioAnterior) {
+              <span class="precio-anterior">{{ p.precioAnterior | currency:'PEN':'S/ ' }}</span>
+            }
+          </td>
+          <td>{{ p.stock }}</td>
+          <td>
+            <span class="chip" [class.ok]="estado(p) === 'Disponible'" [class.alerta]="estado(p) === 'Stock bajo'" [class.peligro]="estado(p) === 'Agotado'">{{ estado(p) }}</span>
+          </td>
+          <td><a [routerLink]="['/productos', p.id]" class="ver">Ver detalle →</a></td>
+        </tr>
+      } @empty {
+        <tr><td colspan="7" class="vacio">No se encontraron productos con esos filtros.</td></tr>
+      }
+    </tbody>
+  </table>
+</div>

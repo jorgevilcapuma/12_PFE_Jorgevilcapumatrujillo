@@ -1,0 +1,52 @@
+<a routerLink="/productos" class="volver">← Volver al catálogo</a>
+
+@if (producto(); as p) {
+  <div class="detalle">
+    <div class="tarjeta principal">
+      <div class="cabecera">
+        <span class="chip">{{ categoria(p.categoriaId) }}</span>
+        <span class="sku">{{ p.sku }}</span>
+      </div>
+      <h2>{{ p.nombre }}</h2>
+      <p class="marca">Marca: <strong>{{ p.marca }}</strong></p>
+      <p>{{ p.descripcion }}</p>
+
+      <div class="precio-bloque">
+        <span class="precio">{{ p.precio | currency:'PEN':'S/ ' }}</span>
+        @if (p.precioAnterior) {
+          <span class="precio-anterior">{{ p.precioAnterior | currency:'PEN':'S/ ' }}</span>
+          <span class="chip peligro">-{{ descuento(p) }}%</span>
+        }
+      </div>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Inventario</h3>
+      <dl>
+        <dt>Stock actual</dt><dd>{{ p.stock }} unidades</dd>
+        <dt>Stock mínimo</dt><dd>{{ p.stockMinimo }} unidades</dd>
+        <dt>Valor en stock</dt><dd>{{ p.precio * p.stock | currency:'PEN':'S/ ' }}</dd>
+        <dt>Estado</dt>
+        <dd><span class="chip" [class.ok]="estado(p) === 'Disponible'" [class.alerta]="estado(p) === 'Stock bajo'" [class.peligro]="estado(p) === 'Agotado'">{{ estado(p) }}</span></dd>
+      </dl>
+    </div>
+  </div>
+
+  @if (relacionados(p).length) {
+    <h3 class="sub">Productos relacionados</h3>
+    <div class="relacionados">
+      @for (r of relacionados(p); track r.id) {
+        <a [routerLink]="['/productos', r.id]" class="tarjeta rel">
+          <strong>{{ r.nombre }}</strong>
+          <span>{{ r.precio | currency:'PEN':'S/ ' }}</span>
+        </a>
+      }
+    </div>
+  }
+} @else {
+  <div class="tarjeta no-existe">
+    <h2>Producto no encontrado</h2>
+    <p>El código solicitado no existe en el catálogo.</p>
+    <a routerLink="/productos" class="btn">Ir al catálogo</a>
+  </div>
+}

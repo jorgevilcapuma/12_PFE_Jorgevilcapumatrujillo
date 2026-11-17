@@ -1,0 +1,19 @@
+.resumen { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
+.resumen small { display: block; color: var(--texto-suave); font-size: .82rem; }
+.resumen strong { font-size: 1.8rem; }
+strong.ok { color: var(--ok); } strong.alerta { color: var(--alerta); } strong.peligro { color: var(--peligro); }
+
+.pestanas { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+.pestanas button { border: 1px solid var(--borde); background: #fff; padding: .45rem .9rem; border-radius: 999px; font: inherit; font-size: .85rem; cursor: pointer; }
+.pestanas button.activa { background: var(--primario); border-color: var(--primario); color: #fff; font-weight: 600; }
+
+.nombre { font-weight: 600; text-decoration: none; }
+.nombre:hover { color: var(--primario); }
+
+.col-nivel { min-width: 140px; }
+.nivel { height: 8px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+.nivel div { height: 100%; border-radius: 99px; }
+.nivel .ok { background: var(--ok); } .nivel .alerta { background: var(--alerta); } .nivel .peligro { background: var(--peligro); }
+
+.vacio { text-align: center; color: var(--texto-suave); padding: 2rem; }
+.sub { margin: 1.8rem 0 .8rem; font-size: 1.05rem; }

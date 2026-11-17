@@ -1,0 +1,32 @@
+<div class="pagina-titulo">
+  <div>
+    <h2>Categorías</h2>
+    <p>Organización del catálogo por líneas de producto.</p>
+  </div>
+  <span class="chip">{{ resumen.length }} categorías</span>
+</div>
+
+<div class="rejilla">
+  @for (c of resumen; track c.id) {
+    <article class="tarjeta categoria" [style.border-top-color]="c.color">
+      <div class="cabecera">
+        <span class="inicial" [style.background]="c.color">{{ c.nombre.charAt(0) }}</span>
+        <div>
+          <h3>{{ c.nombre }}</h3>
+          <small>{{ c.descripcion }}</small>
+        </div>
+      </div>
+
+      <div class="datos">
+        <div><small>Productos</small><strong>{{ c.cantidad }}</strong></div>
+        <div><small>Unidades</small><strong>{{ c.unidades }}</strong></div>
+      </div>
+      <p class="rango">
+        Rango de precios:
+        <strong>{{ c.precioMin | currency:'PEN':'S/ ':'1.0-0' }} – {{ c.precioMax | currency:'PEN':'S/ ':'1.0-0' }}</strong>
+      </p>
+
+      <a routerLink="/productos" [queryParams]="{ categoria: c.id }" class="btn secundario">Ver productos</a>
+    </article>
+  }
+</div>

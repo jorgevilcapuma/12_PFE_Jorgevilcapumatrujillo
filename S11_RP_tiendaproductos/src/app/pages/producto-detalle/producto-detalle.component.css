@@ -1,0 +1,26 @@
+.volver { display: inline-block; margin-bottom: 1rem; color: var(--primario); font-weight: 600; text-decoration: none; }
+.volver:hover { text-decoration: underline; }
+
+.detalle { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; }
+.cabecera { display: flex; justify-content: space-between; align-items: center; }
+.sku { font-family: Consolas, monospace; color: var(--texto-suave); }
+.principal h2 { margin: .8rem 0 .3rem; font-size: 1.6rem; }
+.marca { color: var(--texto-suave); margin-top: 0; }
+
+.precio-bloque { display: flex; align-items: center; gap: .6rem; margin-top: 1.2rem; }
+.precio { font-size: 2rem; font-weight: 800; color: var(--primario-oscuro); }
+
+h3 { margin: 0 0 .8rem; font-size: 1.02rem; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .6rem 1rem; margin: 0; font-size: .92rem; }
+dt { color: var(--texto-suave); }
+dd { margin: 0; font-weight: 600; text-align: right; }
+
+.sub { margin: 1.8rem 0 .8rem; }
+.relacionados { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.rel { text-decoration: none; display: flex; flex-direction: column; gap: .3rem; transition: border-color .15s; }
+.rel:hover { border-color: var(--primario); }
+.rel span { color: var(--primario); font-weight: 700; }
+
+.no-existe { text-align: center; padding: 3rem; }
+
+@media (max-width: 800px) { .detalle { grid-template-columns: 1fr; } }
