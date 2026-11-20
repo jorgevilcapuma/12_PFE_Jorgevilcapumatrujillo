@@ -1,0 +1,72 @@
+<div class="pagina-titulo">
+  <div>
+    <h2>Inventario</h2>
+    <p>Control de existencias, stock mínimo y movimientos recientes.</p>
+  </div>
+</div>
+
+<section class="resumen">
+  <div class="tarjeta"><small>Disponibles</small><strong class="ok">{{ contar('Disponible') }}</strong></div>
+  <div class="tarjeta"><small>Stock bajo</small><strong class="alerta">{{ contar('Stock bajo') }}</strong></div>
+  <div class="tarjeta"><small>Agotados</small><strong class="peligro">{{ contar('Agotado') }}</strong></div>
+</section>
+
+<div class="pestanas">
+  @for (f of filtros; track f) {
+    <button [class.activa]="filtro() === f" (click)="filtro.set(f)">{{ f }}</button>
+  }
+</div>
+
+<div class="tarjeta tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Categoría</th>
+        <th>Stock / mínimo</th>
+        <th class="col-nivel">Nivel</th>
+        <th>Valor</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of lista(); track p.id) {
+        <tr>
+          <td><a [routerLink]="['/productos', p.id]" class="nombre">{{ p.nombre }}</a></td>
+          <td>{{ categoria(p.categoriaId) }}</td>
+          <td>{{ p.stock }} / {{ p.stockMinimo }}</td>
+          <td class="col-nivel">
+            <div class="nivel">
+              <div [style.width.%]="porcentaje(p)"
+                   [class.ok]="estado(p) === 'Disponible'" [class.alerta]="estado(p) === 'Stock bajo'" [class.peligro]="estado(p) === 'Agotado'"></div>
+            </div>
+          </td>
+          <td>{{ p.precio * p.stock | currency:'PEN':'S/ ' }}</td>
+          <td><span class="chip" [class.ok]="estado(p) === 'Disponible'" [class.alerta]="estado(p) === 'Stock bajo'" [class.peligro]="estado(p) === 'Agotado'">{{ estado(p) }}</span></td>
+        </tr>
+      } @empty {
+        <tr><td colspan="6" class="vacio">No hay productos en este estado.</td></tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<h3 class="sub">Movimientos recientes</h3>
+<div class="tarjeta tabla-contenedor">
+  <table>
+    <thead>
+      <tr><th>Fecha</th><th>Producto</th><th>Tipo</th><th>Cantidad</th><th>Motivo</th></tr>
+    </thead>
+    <tbody>
+      @for (m of movimientos; track $index) {
+        <tr>
+          <td>{{ m.fecha }}</td>
+          <td>{{ nombreProducto(m.productoId) }}</td>
+          <td><span class="chip" [class.ok]="m.tipo === 'Entrada'" [class.peligro]="m.tipo === 'Salida'">{{ m.tipo }}</span></td>
+          <td>{{ m.cantidad }}</td>
+          <td>{{ m.motivo }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -17,6 +17,7 @@ Cada carpeta corresponde a una sesión y contiene un proyecto independiente en *
 | S09 | [S09_RP_controlequipos](S09_RP_controlequipos/) | Control de equipos (Reactive Forms) |
 | S10 | [S10_RP_validacionesequipos](S10_RP_validacionesequipos/) | Validaciones avanzadas de formularios |
 | S11 | [S11_RP_tiendaproductos](S11_RP_tiendaproductos/) | Dashboard de tienda con Angular Routing |
+| S12 | [S12_RP_logintienda](S12_RP_logintienda/) | Autenticación y Login con AuthService y Guards |
 
 ## Ejecutar un proyecto
 

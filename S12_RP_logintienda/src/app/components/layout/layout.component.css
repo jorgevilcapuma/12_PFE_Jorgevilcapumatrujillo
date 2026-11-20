@@ -1,0 +1,87 @@
+.contenedor { display: flex; min-height: 100vh; }
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background: #0b3b38;
+  color: #d1fae5;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1rem;
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 20;
+  transition: transform .25s ease;
+}
+
+.marca { display: flex; align-items: center; gap: .75rem; padding: 0 .4rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,.1); }
+.marca strong { display: block; color: #fff; font-size: 1.1rem; }
+.marca small { color: #99f6e4; font-size: .78rem; }
+.logo { width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(135deg, #14b8a6, #0f766e); display: grid; place-items: center; font-weight: 800; color: #fff; }
+
+.menu-titulo { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: #5eead4; margin: 1.5rem .5rem .6rem; }
+
+nav { display: flex; flex-direction: column; gap: .25rem; }
+
+.menu-item {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .7rem .8rem; border-radius: 10px;
+  text-decoration: none; color: #ccfbf1; font-weight: 500;
+  transition: background .15s, color .15s;
+}
+.menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
+.menu-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+
+/* Opción activa resaltada (RouterLinkActive) */
+.menu-item.activo { background: #14b8a6; color: #042f2e; font-weight: 700; box-shadow: inset 4px 0 0 #fff; }
+
+.sidebar-pie { margin-top: auto; display: flex; flex-direction: column; gap: .7rem; }
+.estado { font-size: .8rem; color: #99f6e4; display: flex; align-items: center; gap: .5rem; padding: 0 .5rem; }
+.btn-logout {
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .7rem; border-radius: 10px; border: 1px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.06); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
+}
+.btn-logout:hover { background: #dc2626; border-color: #dc2626; }
+.btn-logout svg, .btn-salir svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-salir { border: 1px solid var(--borde); background: #fff; color: var(--texto-suave); border-radius: 10px; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; }
+.btn-salir:hover { color: #fff; background: #dc2626; border-color: #dc2626; }
+.punto { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; }
+
+/* ---------- Encabezado ---------- */
+.principal { flex: 1; margin-left: 250px; min-width: 0; display: flex; flex-direction: column; }
+
+.encabezado {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--borde);
+  padding: .9rem 2rem;
+}
+.encabezado small { font-size: .7rem; letter-spacing: .08em; color: var(--primario); font-weight: 700; }
+.encabezado h1 { margin: .1rem 0 0; font-size: 1.25rem; }
+
+.usuario { margin-left: auto; display: flex; align-items: center; gap: .6rem; }
+.usuario-info { display: flex; flex-direction: column; text-align: right; }
+.usuario-info strong { font-size: .88rem; }
+.usuario-info small { font-size: .75rem; color: var(--texto-suave); letter-spacing: 0; font-weight: 400; }
+.avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--primario-claro); color: var(--primario-oscuro); display: grid; place-items: center; font-weight: 700; font-size: .85rem; }
+
+.btn-menu { display: none; border: 1px solid var(--borde); background: #fff; border-radius: 8px; font-size: 1.2rem; padding: .3rem .6rem; cursor: pointer; }
+
+.contenido { padding: 2rem; flex: 1; }
+
+.fondo-oscuro { display: none; }
+
+/* ---------- Adaptable ---------- */
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .menu-abierto .sidebar { transform: translateX(0); }
+  .menu-abierto .fondo-oscuro { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 15; }
+  .principal { margin-left: 0; }
+  .btn-menu { display: inline-block; }
+  .encabezado { padding: .8rem 1rem; }
+  .contenido { padding: 1.25rem 1rem; }
+  .usuario-info { display: none; }
+}

@@ -1,0 +1,103 @@
+<section class="bienvenida">
+  <div>
+    <h2>¡Bienvenido a NovaMarket! 👋</h2>
+    <p>Resumen general del catálogo, el inventario y los precios de la tienda.</p>
+  </div>
+  <a routerLink="/productos" class="btn">Ver catálogo</a>
+</section>
+
+<!-- Tarjetas KPI -->
+<section class="kpis">
+  <div class="tarjeta kpi">
+    <span class="kpi-icono azul">📦</span>
+    <div><small>Productos</small><strong>{{ totalProductos }}</strong></div>
+  </div>
+  <div class="tarjeta kpi">
+    <span class="kpi-icono morado">🏷️</span>
+    <div><small>Categorías</small><strong>{{ totalCategorias }}</strong></div>
+  </div>
+  <div class="tarjeta kpi">
+    <span class="kpi-icono verde">📊</span>
+    <div><small>Unidades en stock</small><strong>{{ unidadesStock }}</strong></div>
+  </div>
+  <div class="tarjeta kpi">
+    <span class="kpi-icono naranja">💰</span>
+    <div><small>Valor del inventario</small><strong>{{ valorInventario | currency:'PEN':'S/ ':'1.0-0' }}</strong></div>
+  </div>
+</section>
+
+<section class="rejilla">
+  <!-- Alertas de stock -->
+  <div class="tarjeta">
+    <div class="cabecera">
+      <h3>Alertas de stock</h3>
+      <a routerLink="/inventario">Ir a inventario →</a>
+    </div>
+    <ul class="lista">
+      @for (p of alertas; track p.id) {
+        <li>
+          <div>
+            <a [routerLink]="['/productos', p.id]" class="nombre">{{ p.nombre }}</a>
+            <small>{{ categoria(p.categoriaId) }} · Stock: {{ p.stock }} / mín. {{ p.stockMinimo }}</small>
+          </div>
+          <span class="chip" [class.alerta]="estado(p) === 'Stock bajo'" [class.peligro]="estado(p) === 'Agotado'">{{ estado(p) }}</span>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- Ofertas -->
+  <div class="tarjeta">
+    <div class="cabecera">
+      <h3>Productos en oferta</h3>
+      <a routerLink="/productos">Consultar precios →</a>
+    </div>
+    <ul class="lista">
+      @for (p of ofertas; track p.id) {
+        <li>
+          <div>
+            <a [routerLink]="['/productos', p.id]" class="nombre">{{ p.nombre }}</a>
+            <small>{{ p.marca }} · {{ categoria(p.categoriaId) }}</small>
+          </div>
+          <div class="precio">
+            {{ p.precio | currency:'PEN':'S/ ' }}
+            <span class="precio-anterior">{{ p.precioAnterior | currency:'PEN':'S/ ' }}</span>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- Distribución por categoría -->
+  <div class="tarjeta">
+    <div class="cabecera">
+      <h3>Productos por categoría</h3>
+      <a routerLink="/categorias">Ver categorías →</a>
+    </div>
+    @for (c of categorias; track c.id) {
+      <div class="barra-fila">
+        <span>{{ c.nombre }}</span>
+        <div class="barra"><div [style.width.%]="productosPorCategoria(c.id) / totalProductos * 100" [style.background]="c.color"></div></div>
+        <strong>{{ productosPorCategoria(c.id) }}</strong>
+      </div>
+    }
+  </div>
+
+  <!-- Movimientos -->
+  <div class="tarjeta">
+    <div class="cabecera"><h3>Últimos movimientos</h3></div>
+    <ul class="lista">
+      @for (m of movimientos; track $index) {
+        <li>
+          <div>
+            <span class="nombre">{{ nombreProducto(m.productoId) }}</span>
+            <small>{{ m.fecha }} · {{ m.motivo }}</small>
+          </div>
+          <span class="chip" [class.ok]="m.tipo === 'Entrada'" [class.peligro]="m.tipo === 'Salida'">
+            {{ m.tipo === 'Entrada' ? '+' : '−' }}{{ m.cantidad }}
+          </span>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,63 @@
+<div class="pantalla">
+  <!-- Panel de marca -->
+  <section class="marca">
+    <div class="logo">NM</div>
+    <h1>NovaMarket</h1>
+    <p>Panel de gestión de la tienda: catálogo, categorías, inventario y consulta de precios.</p>
+    <ul>
+      <li>12 productos en catálogo</li>
+      <li>5 categorías</li>
+      <li>Control de stock en tiempo real</li>
+    </ul>
+  </section>
+
+  <!-- Formulario de acceso -->
+  <section class="formulario">
+    <form class="tarjeta caja" [formGroup]="form" (ngSubmit)="ingresar()" novalidate>
+      <h2>Iniciar sesión</h2>
+      <p class="sub">Ingresa con tu cuenta para acceder al Dashboard.</p>
+
+      @if (aviso && !error()) {
+        <div class="alerta info">{{ aviso }}</div>
+      }
+
+      <label for="correo">Correo electrónico</label>
+      <input id="correo" type="email" formControlName="correo" placeholder="usuario@novamarket.com"
+             autocomplete="username" [class.invalido]="campoInvalido('correo')">
+      @if (campoInvalido('correo')) {
+        <small class="msg">
+          @if (form.controls.correo.hasError('required')) { El correo es obligatorio. }
+          @if (form.controls.correo.hasError('email')) { Ingresa un correo válido (ejemplo: nombre&#64;dominio.com). }
+        </small>
+      }
+
+      <label for="clave">Contraseña</label>
+      <div class="clave">
+        <input id="clave" [type]="verClave() ? 'text' : 'password'" formControlName="clave" placeholder="••••••••"
+               autocomplete="current-password" [class.invalido]="campoInvalido('clave')">
+        <button type="button" class="ojo" (click)="verClave.set(!verClave())"
+                [attr.aria-label]="verClave() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+          {{ verClave() ? 'Ocultar' : 'Ver' }}
+        </button>
+      </div>
+      @if (campoInvalido('clave')) {
+        <small class="msg">
+          @if (form.controls.clave.hasError('required')) { La contraseña es obligatoria. }
+          @if (form.controls.clave.hasError('minlength')) { La contraseña debe tener al menos 6 caracteres. }
+        </small>
+      }
+
+      @if (error()) {
+        <div class="alerta error" role="alert">{{ error() }}</div>
+      }
+
+      <button type="submit" class="btn ingresar" [disabled]="cargando()">Ingresar</button>
+
+      <div class="demo">
+        <strong>Cuenta de prueba</strong>
+        <span>admin&#64;novamarket.com · Admin123</span>
+        <button type="button" (click)="usarDemo()">Completar datos</button>
+      </div>
+    </form>
+  </section>
+</div>

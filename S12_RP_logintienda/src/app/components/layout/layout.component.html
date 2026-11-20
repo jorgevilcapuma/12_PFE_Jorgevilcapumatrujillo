@@ -1,0 +1,70 @@
+<div class="contenedor" [class.menu-abierto]="menuAbierto()">
+  <!-- Menú lateral fijo -->
+  <aside class="sidebar">
+    <div class="marca">
+      <div class="logo">NM</div>
+      <div>
+        <strong>NovaMarket</strong>
+        <small>Tienda de productos</small>
+      </div>
+    </div>
+
+    <p class="menu-titulo">Menú principal</p>
+    <nav>
+      @for (opcion of menu; track opcion.ruta) {
+        <a [routerLink]="opcion.ruta" routerLinkActive="activo" class="menu-item">
+          @switch (opcion.icono) {
+            @case ('inicio') {
+              <svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+            }
+            @case ('productos') {
+              <svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+            }
+            @case ('categorias') {
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            }
+            @case ('inventario') {
+              <svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
+            }
+          }
+          <span>{{ opcion.etiqueta }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-pie">
+      <div class="estado"><span class="punto"></span> Sesión activa</div>
+      <button class="btn-logout" (click)="cerrarSesion()">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Cerrar sesión
+      </button>
+    </div>
+  </aside>
+
+  <div class="fondo-oscuro" (click)="menuAbierto.set(false)"></div>
+
+  <!-- Encabezado + área principal -->
+  <div class="principal">
+    <header class="encabezado">
+      <button class="btn-menu" (click)="menuAbierto.set(!menuAbierto())" aria-label="Abrir menú">☰</button>
+      <div>
+        <small>NOVAMARKET · PANEL DE GESTIÓN</small>
+        <h1>{{ seccionActual() }}</h1>
+      </div>
+      <div class="usuario">
+        <div class="avatar">{{ iniciales() }}</div>
+        <div class="usuario-info">
+          <strong>{{ usuario()?.nombre }}</strong>
+          <small>{{ usuario()?.rol }} · {{ usuario()?.correo }}</small>
+        </div>
+        <button class="btn-salir" (click)="cerrarSesion()" title="Cerrar sesión" aria-label="Cerrar sesión">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="contenido">
+      <router-outlet />
+    </main>
+  </div>
+</div>
